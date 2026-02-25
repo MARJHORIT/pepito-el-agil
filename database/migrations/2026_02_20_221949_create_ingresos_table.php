@@ -5,23 +5,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('ingresos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('ingresos');
-    }
-};
+{
+    Schema::create('ingresos', function (Blueprint $table) {
+        $table->id();
+        $table->decimal('monto', 10, 2);
+        $table->date('fecha');
+
+        $table->foreignId('persona_id')->constrained('personas')->onDelete('cascade');
+        $table->foreignId('clasificacion_id')->constrained('clasificacions')->onDelete('cascade');
+        $table->foreignId('anio_fiscal_id')->constrained('anio_fiscals')->onDelete('cascade');
+
+        $table->timestamps();
+    });
+}
